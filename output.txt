@@ -1,0 +1,7 @@
+ProcessID	Arrival	Burst	Waiting	Turnaround
+1		10	5	0	5
+2		20	3	0	3
+3		25	4	0	4
+
+Average Waiting Time: 0.00 seconds
+Average Turnaround Time: 4.00 seconds
