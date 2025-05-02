@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Project {
+public class temp {
 
     static class Process {
         int pid, arrival, burst, priority, remaining;
@@ -42,7 +42,14 @@ public class Project {
     }
 
     static double fcfsScheduling(List<Process> list) throws IOException {
-        list.sort(Comparator.comparingInt(p -> p.arrival));
+        // Replace lambda with Comparator
+        Collections.sort(list, new Comparator<Process>() {
+            @Override
+            public int compare(Process p1, Process p2) {
+                return Integer.compare(p1.arrival, p2.arrival);
+            }
+        });
+        
         int time = 0, totalWT = 0, totalTAT = 0;
         StringBuilder out = new StringBuilder("PID\tAT\tBT\tWT\tTAT\n");
 
@@ -63,7 +70,14 @@ public class Project {
     }
 
     static double sjfScheduling(List<Process> list) throws IOException {
-        list.sort(Comparator.comparingInt(p -> p.arrival));
+        // Replace lambda with Comparator
+        Collections.sort(list, new Comparator<Process>() {
+            @Override
+            public int compare(Process p1, Process p2) {
+                return Integer.compare(p1.arrival, p2.arrival);
+            }
+        });
+        
         int time = 0, totalWT = 0, totalTAT = 0;
         StringBuilder out = new StringBuilder("PID\tAT\tBT\tWT\tTAT\n");
         List<Process> ready = new ArrayList<>();
@@ -73,14 +87,29 @@ public class Project {
             for (Process p : list) {
                 if (p.arrival <= time && !ready.contains(p)) ready.add(p);
             }
-            ready.removeIf(p -> p.remaining == 0);
+            
+            // Replace lambda with Iterator
+            Iterator<Process> iterator = ready.iterator();
+            while (iterator.hasNext()) {
+                Process p = iterator.next();
+                if (p.remaining == 0) {
+                    iterator.remove();
+                }
+            }
 
             if (ready.isEmpty()) {
                 time++;
                 continue;
             }
 
-            Process next = ready.stream().min(Comparator.comparingInt(p -> p.burst)).get();
+            // Replace stream with Collections.min
+            Process next = Collections.min(ready, new Comparator<Process>() {
+                @Override
+                public int compare(Process p1, Process p2) {
+                    return Integer.compare(p1.burst, p2.burst);
+                }
+            });
+            
             int wt = time - next.arrival;
             int tat = wt + next.burst;
             totalWT += wt;
@@ -98,7 +127,14 @@ public class Project {
     }
 
     static double priorityScheduling(List<Process> list) throws IOException {
-        list.sort(Comparator.comparingInt(p -> p.arrival));
+        // Replace lambda with Comparator
+        Collections.sort(list, new Comparator<Process>() {
+            @Override
+            public int compare(Process p1, Process p2) {
+                return Integer.compare(p1.arrival, p2.arrival);
+            }
+        });
+        
         int time = 0, totalWT = 0, totalTAT = 0;
         StringBuilder out = new StringBuilder("PID\tAT\tBT\tPRI\tWT\tTAT\n");
         List<Process> ready = new ArrayList<>();
@@ -108,14 +144,29 @@ public class Project {
             for (Process p : list) {
                 if (p.arrival <= time && !ready.contains(p)) ready.add(p);
             }
-            ready.removeIf(p -> p.remaining == 0);
+            
+            // Replace lambda with Iterator
+            Iterator<Process> iterator = ready.iterator();
+            while (iterator.hasNext()) {
+                Process p = iterator.next();
+                if (p.remaining == 0) {
+                    iterator.remove();
+                }
+            }
 
             if (ready.isEmpty()) {
                 time++;
                 continue;
             }
 
-            Process next = ready.stream().min(Comparator.comparingInt(p -> p.priority)).get();
+            // Replace stream with Collections.min
+            Process next = Collections.min(ready, new Comparator<Process>() {
+                @Override
+                public int compare(Process p1, Process p2) {
+                    return Integer.compare(p1.priority, p2.priority);
+                }
+            });
+            
             int wt = time - next.arrival;
             int tat = wt + next.burst;
             totalWT += wt;
@@ -134,7 +185,14 @@ public class Project {
     }
 
     static double roundRobinScheduling(List<Process> list, int quantum) throws IOException {
-        list.sort(Comparator.comparingInt(p -> p.arrival));
+        // Replace lambda with Comparator
+        Collections.sort(list, new Comparator<Process>() {
+            @Override
+            public int compare(Process p1, Process p2) {
+                return Integer.compare(p1.arrival, p2.arrival);
+            }
+        });
+        
         Queue<Process> queue = new LinkedList<>();
         int time = 0, totalWT = 0, totalTAT = 0;
         StringBuilder out = new StringBuilder("PID\tAT\tBT\tWT\tTAT\n");
